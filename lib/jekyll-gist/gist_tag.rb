@@ -2,6 +2,7 @@
 
 require "cgi"
 require "net/http"
+require "timeout"
 require "octokit"
 
 Net::OpenTimeout = Class.new(RuntimeError) unless Net.const_defined?(:OpenTimeout)
@@ -87,7 +88,7 @@ module Jekyll
           response = http.request(request)
           response.body
         end
-      rescue SocketError, Net::HTTPError, Net::OpenTimeout, Net::ReadTimeout, TimeoutError
+      rescue SocketError, Net::HTTPError, Net::OpenTimeout, Net::ReadTimeout, Timeout::Error
         nil
       end
 
